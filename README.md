@@ -80,6 +80,21 @@ Invoke directly:
 
 The skill responds in the language the user asks in, Bahasa Melayu or English.
 
+## Testing
+
+Once installed, start a fresh Claude Code session and try each row below to confirm the skill loaded correctly.
+
+| Test | Prompt | Expected |
+|---|---|---|
+| Build mode | *"I'm building a new site for Jabatan X. Walk me through every mandatory item."* | Build checklist; [M] items only unless [R] is asked for. |
+| Audit happy path | *"Audit https://www.jdn.gov.my and give me the top 5 compliance fixes."* | Markdown report: hard-fail check → per-section findings → summary → top 5. |
+| Hard-fail short-circuit | *"Audit https://example.com"* (any non-`gov.my` URL) | Refuses the rest of the audit. Reports only the domain finding. |
+| BM trigger | *"Audit laman web kerajaan saya https://www.\<agency\>.gov.my"* | Same flow, response in BM. |
+| Rasionalisasi | *"Kami ada 4 portal di jabatan. Klasifikasi setiap satu."* | 4-category table (Dikekalkan / Ditutup / Dikonsolidasi / Dikecualikan) + the JDN approval flow. |
+| [M] vs [R] discipline | Any audit | No `[R]` miss flagged as a failure in the summary. |
+
+The **hard-fail short-circuit** is the fastest signal that the skill is loaded. Point it at any non-`gov.my` URL and it should refuse to audit anything else.
+
 ## Source of Truth
 
 **Pekeliling Pendigitalan Perkhidmatan Awam Bilangan 1 Tahun 2025**
